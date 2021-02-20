@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<!-- call for head for html file -->
+<head>
+<!-- call css sheet -->
+<link rel="stylesheet" href="style.css">
+<script>
+<!-- create function for customer information submission -->
+function submitFunction() {
+<!-- create customer object to store variables -->
+<!-- Note: could be done without an object, but it makes sense to wrangle all variables in an object -->
+	var customer = {
+	<!-- we want a single value of this object to state what the name of the object is for caluclations in functions -->
+		name: 'customer',
+		first: '',
+		last: '',
+		email: ''
+	}
+	<!-- create error code object and set property strings for each value-->
+	var errorCodeMessages = {
+		name: 'errorCodeMessages',
+		missingInfo: 'Please enter information in this field',
+		email: 'Please enter a valid email address.'
+	}
+	<!-- create error code object to store variables mirroring format of customer table-->
+	var errorCode = {
+		name: 'errorCode',
+		first: '',
+		last: '',
+		email: ''
+	}
+	<!-- create boolean variable to determine if information validation was successful -->
+	var success = true;
+	<!-- set boolean variable to the return of a given function which will both determine if information validation was successful in addition to comparing the inputs by the user to rules and give an error message if it does not pass those rules (being blank, null, or bad email -->
+	success = setAndCheck(customer,errorCode,errorCodeMessages, "first");
+	success = setAndCheck(customer,errorCode,errorCodeMessages, "last");
+	success = setAndCheck(customer,errorCode,errorCodeMessages, "email");
+	<!-- for verifying that variables were properly assigned the information in textboxes, display those variables using function for saving space and scalability-->
+	setElements(customer,"first");
+	setElements(customer,"last");
+	setElements(customer,"email");
+	<!-- display error codes if errors occurred-->
+	setElements(errorCode,"first");
+	setElements(errorCode,"last");
+	setElements(errorCode,"email");
+	<!-- display "Customer information submitted!" when information successfully submitted via checking value of success set by function(s)-->
+	if (success == true) {
+		document.getElementById("processComplete").innerHTML = "Customer information submitted!";
+		document.getElementById("processError").innerHTML = "";
+	}
+	else
+	{
+		document.getElementById("processError").innerHTML = "Please correct your inputs.";
+		document.getElementById("processComplete").innerHTML = "";
+	}
+	}
+<!-- create function for setting input and checking if its valid-->
+<!-- Object 1 for setting initial value for a given property, Object 2 for setting value of properties to an error string if inputs are invalid, and the property we're testing-->
+function setAndCheck(obj1, obj2, list, PropType) {
+	<!-- create string for Id used by elements by combining the name property, . , and the type of property parameter-->
+	<!--ex: customer.first-->
+	var idString = obj1.name+"."+PropType;
+	<!--create and set input variable to string-->
+	var input = ""
+	<!-- set input string to the string value of the element of the given id's value-->
+	input = String(document.getElementById(idString).value);
+	<!-- evaulate if the input is blank or null-->
+	if (input == "" || input == null) {
+		<!--set second object's value to error message-->
+		obj2[PropType] = list.missingInfo;
+		<!--end function by returning false value of success due to validation failure-->
+		return false
+	}
+	<!-- check if property we're evaluating is email>
+	if (PropType == "email") {
+		<!-- set integer value of the "at position" to the first instance of the @ symbol for the input string-->
+		var atPosition = input.indexOf("@");
+		<!-- set integer value of the "dot position" to the last instance of the . symbol for the input string-->
+		var dotPosition = input.lastIndexOf(".");
+		<!-- test to see if the position of the @ symbol is less than 1 (either 0 or null because it can't be negative unless there's an integer overflow), -->
+		<!--if the position of the last dot is less than the position of the @ symbol plus 2 so there's room for the domain, and if the position of the dot is greater or equal to the length of the input to determine failure-->
+		if (atPosition < 1 || dotPosition < atPosition + 2 || dotPosition >= input.length) {
+			<!--set second object's value to error message-->
+			obj2[PropType] = list.email;
+			<!--end function by returning false value of success due to validation failure-->
+			return false
+			}
+	}
+	<!--set the value of object's property to the input (for output)-->
+	obj1[PropType] = input;
+	<!--return true value for success-->
+	return true
+}
+<!-- function for using object and property to display on page-->
+function setElements(obj1,PropType) {
+	<!--set string value to the name of the object, . , the property type, and .out to create the id used for the given element-->
+	<!--ex: customer.first.out-->
+	var propIDString = obj1.name+"."+PropType+".out";
+	<!--change value of HTML with given ID to the object's property value-->
+	document.getElementById(propIDString).innerHTML = obj1[PropType];
+}
+
+</script>
+<!-- set title of site -->
+<title>Customer Information</title>
+</head>
+<!-- start body of site -->
+<body>
+	<!-- display header -->
+	<h1>Customer information</h1><hr>
+	<div style="inputtext">
+		<table>
+		<!-- display name/email headers, input elements for textboxes of user input, and error output -->
+			<tr>
+				<td>First name:</td>
+				<td><input type="text" id="customer.first" /></td>
+				<td id="errorCode.first.out" class="errorClass"></td>
+			</tr>
+			<tr>
+				<td>Last name:</td>
+				<td><input type="text" id="customer.last" /></td>
+				<td id="errorCode.last.out" class="errorClass"></td>
+			</tr>
+			<tr>
+				<td>Email address:</td>
+				<td><input type="text" id="customer.email" /></td>
+				<td id="errorCode.email.out" class="errorClass"></td>
+			</tr>
+		<!-- button element that ties to submittion function -->
+			<tr>
+				<td><button type="button" onclick="submitFunction()">Submit</button></td>
+			</tr>
+		</table>
+	</div>
+	<!-- elements of output for success of user input -->
+		<div class="successClass" id="processComplete"></div>
+		<div class="errorClass" id="processError"></div>
+		<div id="customer.first.out"></div>
+		<div id="customer.last.out"></div>
+		<div id="customer.email.out"></div>
+	</div>
+</body>

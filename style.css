@@ -1,0 +1,30 @@
+body {
+  background-color: Beige;
+}
+h1 {
+  color: DarkSlateGrey;
+  font-family: "Times New Roman", Times, serif;
+}
+label {
+	font-family: Arial, Helvetica, sans-serif;
+}
+titlehead {
+	font-family: "Verdana", "Arial";
+	color: Black;
+}
+inputtext {
+	font-family: Arial;
+	color: Black;
+}
+.errorClass {
+	font-family: "Courier New", "Lucida Console", "Lucida Sans Typewriter";
+	color: DarkRed;
+}
+.successClass {
+	font-family: Arial, Helvetica, sans-serif;
+	color: Green;
+}
+#outputtext {
+	font-family: "Courier New" ,"Lucida Console", "Lucida Sans Typewriter";
+	color: Black;
+}
